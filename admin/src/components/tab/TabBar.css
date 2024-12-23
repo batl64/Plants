@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.user {
+  display: flex;
+  flex-direction: column;
+}
+
+.left {
+  align-self: center;
+}
+
+.main-link {
+  font-size: 40px;
+  font-family: "Times New Roman";
+  text-decoration: none;
+}
+
+.main-link:hover,
+.main-link:active,
+.main-link:visited,
+.main-link:link {
+  text-decoration: none;
+}
+
+.select {
+  margin-right: 10px;
+}
+
+.main-page .nav.nav-pills.nav-justified {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.language {
+  display: flex;
+}
+
+@media (max-width: 700px) {
+  .header {
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 1rem;
+  }
+  .header div,
+  .header a {
+    padding-bottom: 1rem;
+  }
+  .main-link {
+    text-align: center;
+  }
+}

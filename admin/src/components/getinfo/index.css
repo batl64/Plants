@@ -1,0 +1,30 @@
+.button-send {
+  display: flex;
+  justify-content: center;
+  margin-right: 35px;
+}
+
+.users .tab-size a {
+  max-width: 200px;
+}
+
+.users .tab-size {
+  margin-right: 1.5rem;
+  margin-left: 1.5rem;
+}
+
+@media (min-width: 700px) {
+  .flex-50-row {
+    flex: 50%;
+  }
+}
+
+@media (max-width: 700px) {
+  .row {
+    flex-direction: column;
+  }
+}
+
+.flex-50-row {
+  word-break: break-word;
+}

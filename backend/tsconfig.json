@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "module": "commonjs",
+    "outDir": "./dist/src",
+    "rootDir": "src",
+    "target": "es6",
+    "lib": [ "es6" ],
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
