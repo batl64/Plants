@@ -132,6 +132,7 @@ export default {
       area: "Площя",
       photo: "Зображення",
       map: "Карта",
+      selectPlants: "Будь ласка виберіть рослину",
     },
   },
   en: {

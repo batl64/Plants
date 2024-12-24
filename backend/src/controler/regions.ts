@@ -82,7 +82,7 @@ class Regions {
   async createRegion(req, res) {
     const { NameRegion, regionType, IdParentRegion } = req.body;
     db.query(
-      `INSERT INTO regions( Name, RegionType, ID_ParentRegion) VALUES ('${NameRegion}','${regionType}',${IdParentRegion})`,
+      `INSERT INTO regions( Name, RegionType, ID_ParentRegion) VALUES ('${NameRegion}','${regionType}',NULL)`,
       (err, result) => {
         res.status(200).json({ message: "List creacte" });
       }
@@ -93,7 +93,7 @@ class Regions {
     const { id, NameRegion, regionType, IdParentRegion } = req.body;
 
     db.query(
-      `UPDATE regions SET Name='${NameRegion}',RegionType='${regionType}', ID_ParentRegion =${IdParentRegion} WHERE ID_Region = ${id}`,
+      `UPDATE regions SET Name='${NameRegion}',RegionType='${regionType}', NULL WHERE ID_Region = ${id}`,
       (err, result) => {
         res.json(result);
       }

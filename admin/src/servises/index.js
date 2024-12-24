@@ -29,3 +29,12 @@ export const upload = async (method, url, body = null, headers = {}) => {
 
   return res;
 };
+
+export const fetchKyivRegion = async (name) => {
+  const response = await fetch(
+    `https://overpass-api.de/api/interpreter?data=[out:json];(${name});out geom;`
+  );
+
+  const data = await response.json();
+  return data;
+};

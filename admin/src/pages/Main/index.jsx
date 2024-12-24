@@ -6,7 +6,7 @@ import Regions from "../../components/getinfo/regions.jsx";
 import Plants from "../../components/getinfo/plants.jsx";
 import Categories from "../../components/getinfo/categories.jsx";
 import Areaplants from "../../components/getinfo/areaplants.jsx";
-import Map from "../../components/map/map.jsx";
+import Mapp from "../../components/map/map.jsx";
 const Users = React.lazy(() => import("../../components/getinfo/users.jsx"));
 
 const MainPage = (props) => {
@@ -40,7 +40,7 @@ const MainPage = (props) => {
           <Areaplants {...props} />
         </Tab>
         <Tab eventKey="map" title={translate("map")}>
-          <Map {...props} />
+          <Mapp {...props} />
         </Tab>
       </Tabs>
     </div>

@@ -106,8 +106,6 @@ class Plants {
       photo = req?.file?.filename;
     }
 
-    console.log(photo || PhotoURL || null + " 12");
-
     db.query(
       `UPDATE plants SET Name='${Name}',PhotoURL='${
         photo || PhotoURL || null

@@ -31,7 +31,7 @@ export class Regions extends Component {
   render() {
     const { translate } = this.props;
     const tableRef = React.createRef();
-    console.log(this.state.data);
+
     const regionLookup = this.state?.data?.reduce((acc, item) => {
       acc[item?.ID_Region] = item?.Name;
       return acc;
@@ -90,11 +90,6 @@ export class Regions extends Component {
                 Область: translate("region"),
                 Район: translate("neighborhood"),
               },
-            },
-            {
-              title: translate("nameParentRegion"),
-              field: "IdParentRegion",
-              lookup: { ...regionLookup, null: translate("nullRegion") },
             },
           ]}
           editable={{

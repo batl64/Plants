@@ -45,6 +45,22 @@ class ChangeLogs {
       res.json(result);
     });
   }
+
+  async getchangeList(req, res) {
+    const { id } = req.query;
+
+    let url = `SELECT areaplants.ID_AreaPlants, changeLogs.ChangeDate, changeLogs.AreaSize, regions.Name as RegionName,regions.RegionType as regType, plants.Name, plants.PhotoURL
+    From changeLogs
+    LEFT JOIN areaplants on changeLogs.ID_AreaPlants = areaplants.ID_AreaPlants
+    LEFT JOIN regions on areaplants.ID_Region = regions.ID_Region
+    LEFT JOIN plants on areaplants.ID_Plant   = plants.ID_Plant  
+    Where areaplants.ID_Plant =${id}
+    `;
+
+    db.query(url, (err, result) => {
+      res.json(result);
+    });
+  }
 }
 
 module.exports = new ChangeLogs();
