@@ -8,6 +8,7 @@ export const respons = async (method, url, body = null) => {
   });
 
   const res = await response.json();
+
   if (!response.ok) {
     throw new Error(res.message);
   }

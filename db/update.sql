@@ -8,7 +8,7 @@ CREATE TABLE users (
 -- Таблиця для категорій
 CREATE TABLE categories (
     ID_Category INT AUTO_INCREMENT PRIMARY KEY, 
-    NameCategory VARCHAR(255) NOT NULL,         
+    NameCategory VARCHAR(255) NOT NULL UNIQUE,         
     ID_ParentCategories int DEFAULT NULL,                    
     Level INT NOT NULL,                         
     FOREIGN KEY (ID_ParentCategories) REFERENCES Categories(ID_Category) 
@@ -28,7 +28,7 @@ CREATE TABLE plants (
 -- Таблиця для регіонів
 CREATE TABLE regions (
     ID_Region INT AUTO_INCREMENT PRIMARY KEY,  
-    Name VARCHAR(255) NOT NULL,               
+    Name VARCHAR(255) NOT NULL UNIQUE,               
     RegionType ENUM('Область', 'Район') NOT NULL, 
     ID_ParentRegion INT DEFAULT NULL,                       
     FOREIGN KEY (ID_ParentRegion) REFERENCES Regions(ID_Region) 
@@ -45,6 +45,9 @@ CREATE TABLE areaplants (
     FOREIGN KEY (ID_Plant) REFERENCES Plants(ID_Plant)     
 );
 
+ALTER TABLE `areaplants`
+ADD CONSTRAINT `unique_area_region` UNIQUE (`ID_Plant`, `ID_Region`);
+
 -- Таблиця для динаміки змін
 CREATE TABLE changelogs (
     ID_AreaPlants INT NOT NULL,                
@@ -54,7 +57,6 @@ CREATE TABLE changelogs (
     PRIMARY KEY (ID_AreaPlants, ChangeDate),    
     FOREIGN KEY (ID_AreaPlants) REFERENCES AreaPlants(ID_AreaPlants)
 );
-
 
 
 

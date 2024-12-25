@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withTranslate } from "react-redux-multilingual";
 import { respons } from "../../servises/index.js";
 import { TableInfo } from "../table/table.jsx";
+import Swal from "sweetalert2";
 
 export class Areaplants extends Component {
   constructor(props) {
@@ -16,12 +17,31 @@ export class Areaplants extends Component {
     respons("delete", "/areaplants", JSON.stringify({ id: dat?.id }));
   };
 
-  onRowCreate = (dat) => {
-    respons("post", "/areaplants", JSON.stringify(dat));
+  onRowCreate = async (dat) => {
+    try {
+      await respons("post", "/areaplants", JSON.stringify(dat));
+    } catch (e) {
+      if (e.message === "Duplicate")
+        Swal.fire({
+          showConfirmButton: true,
+          icon: "error",
+          text: this.props.translate("duplicateAreaplants"),
+        });
+    }
   };
 
-  onRowUpdate = (dat) => {
-    respons("put", "/areaplants", JSON.stringify(dat));
+  onRowUpdate = async (dat) => {
+    try {
+      await respons("put", "/areaplants", JSON.stringify(dat));
+    } catch (e) {
+      if (e.message === "Duplicate") {
+        Swal.fire({
+          showConfirmButton: true,
+          icon: "error",
+          text: this.props.translate("duplicateAreaplants"),
+        });
+      }
+    }
   };
 
   async componentDidMount() {

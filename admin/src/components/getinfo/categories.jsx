@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withTranslate } from "react-redux-multilingual";
 import { respons } from "../../servises/index.js";
 import { TableInfo } from "../table/table.jsx";
+import Swal from "sweetalert2";
 
 export class Categories extends Component {
   constructor(props) {
@@ -15,12 +16,28 @@ export class Categories extends Component {
     respons("delete", "/categories", JSON.stringify({ id: dat?.id }));
   };
 
-  onRowCreate = (dat) => {
-    respons("post", "/categories", JSON.stringify(dat));
+  onRowCreate = async (dat) => {
+    try {
+      await respons("post", "/categories", JSON.stringify(dat));
+    } catch (e) {
+      Swal.fire({
+        showConfirmButton: true,
+        icon: "error",
+        text: this.props.translate(e.message),
+      });
+    }
   };
 
-  onRowUpdate = (dat) => {
-    respons("put", "/categories", JSON.stringify(dat));
+  onRowUpdate = async (dat) => {
+    try {
+      await respons("put", "/categories", JSON.stringify(dat));
+    } catch (e) {
+      Swal.fire({
+        showConfirmButton: true,
+        icon: "error",
+        text: this.props.translate(e.message),
+      });
+    }
   };
 
   async componentDidMount() {

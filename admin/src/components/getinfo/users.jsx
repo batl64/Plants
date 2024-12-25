@@ -3,6 +3,7 @@ import { withTranslate } from "react-redux-multilingual";
 import { respons } from "../../servises";
 import { paternProject } from "../../const/const.js";
 import { TableInfo } from "../table/table.jsx";
+import Swal from "sweetalert2";
 
 export class user extends Component {
   constructor(props) {

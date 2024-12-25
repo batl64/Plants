@@ -83,7 +83,10 @@ class Categories {
     db.query(
       `INSERT INTO categories( NameCategory, Level, ID_ParentCategories) VALUES ('${NameCategory}',1,${IdParentCategories})`,
       (err, result) => {
-        res.status(200).json({ message: "List creacte" });
+        if (err && err.code == "ER_DUP_ENTRY") {
+          return res.status(409).json({ message: "Duplicate" });
+        }
+        res.status(200).json({ message: "Creacte" });
       }
     );
   }
@@ -94,6 +97,9 @@ class Categories {
     db.query(
       `UPDATE categories SET NameCategory='${NameCategory}',Level=1, ID_ParentCategories =${IdParentCategories} WHERE ID_Category = ${id}`,
       (err, result) => {
+        if (err && err.code == "ER_DUP_ENTRY") {
+          return res.status(409).json({ message: "Duplicate" });
+        }
         res.json(result);
       }
     );

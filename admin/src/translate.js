@@ -133,6 +133,12 @@ export default {
       photo: "Зображення",
       map: "Карта",
       selectPlants: "Будь ласка виберіть рослину",
+
+      //Проблеми
+      Duplicate:
+        "Відбулося дублювання назви, будь ласка впишить унікальну назву",
+      duplicateAreaplants:
+        "Відбулося дублювання значень регіону та рослин, вибирайте унікальні значення для рослин і регіону",
     },
   },
   en: {
@@ -252,6 +258,28 @@ export default {
       plants: "Plants",
       categories: "Categories",
       areaplants: "Planting area for plants",
+      photoURL: "Image path",
+      area: "Occupied area",
+      nameCategory: "Category name",
+      nameParentCategories: "Parent category name",
+      level: "Level",
+      nameRegion: "Region name",
+      namePlant: "Plant name",
+      areaSize: "Growth area",
+      dateLastUpdated: "Last update date",
+      region: "Region",
+      neighborhood: "District",
+      nullCategory: "No parent category",
+      nullPlants: "",
+      area: "Area",
+      photo: "Image",
+      map: "Map",
+      selectPlants: "Please select a plant",
+
+      // Issues
+      Duplicate: "A duplicate name occurred, please enter a unique name",
+      duplicateAreaplants:
+        "A duplicate of region and plant values occurred, please select unique values for plant and region",
     },
   },
 };

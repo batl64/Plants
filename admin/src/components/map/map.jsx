@@ -38,10 +38,17 @@ const Mapp = (props) => {
     setSelect(dat.target.value);
   };
 
-  useEffect(async () => {
-    await respons("get", "/plantsList").then((data) => {
-      setPlants(data);
-    });
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await respons("get", "/plantsList").then((data) => {
+          setPlants(data);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetch();
   }, []);
 
   useEffect(() => {

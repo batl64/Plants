@@ -97,7 +97,7 @@ class ChangeLogs {
     `
         : "") +
       `);`;
-    console.log(url);
+
     db.query(url, (err, result) => {
       res.json(result);
     });

@@ -81,6 +81,9 @@ class Areaplants {
         .slice(0, 19)
         .replace("T", " ")}')`,
       (err, result) => {
+        if (err && err.code == "ER_DUP_ENTRY") {
+          return res.status(409).json({ message: "Duplicate" });
+        }
         res.status(200).json({ message: "List creacte" });
       }
     );
@@ -96,6 +99,9 @@ class Areaplants {
         .replace("T", " ")}'
       WHERE ID_AreaPlants = ${id}`,
       (err, result) => {
+        if (err && err.code == "ER_DUP_ENTRY") {
+          return res.status(409).json({ message: "Duplicate" });
+        }
         res.json(result);
       }
     );
