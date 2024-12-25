@@ -33,6 +33,7 @@ export class Plants extends Component {
           Name: dat.Name,
           NameCategory: dat.NameCategory,
           PhotoURL: dat.PhotoURL,
+          Description: dat.Description,
         }),
       formData
     );
@@ -51,6 +52,7 @@ export class Plants extends Component {
           Name: dat.Name,
           NameCategory: dat.NameCategory,
           PhotoURL: dat.PhotoURL,
+          Description: dat.Description,
           id: dat.id,
         }),
       formData
@@ -74,7 +76,13 @@ export class Plants extends Component {
         pageSize: query.pageSize ? query.pageSize : 5,
         pageNumber: query.page ? query.page : 0,
         search: query.search ? query.search : "",
-        searchFields: ["Name", "PhotoURL", "Area", "NameCategory"],
+        searchFields: [
+          "Name",
+          "PhotoURL",
+          "Area",
+          "NameCategory",
+          "Description",
+        ],
       };
 
       return new Promise((res, rej) => {
@@ -120,12 +128,14 @@ export class Plants extends Component {
               field: "Photo",
               render: (rowData) => (
                 <>
-                  {rowData.PhotoURL && rowData.PhotoURL != "null" && (
-                    <img
-                      src={process.env.BACKEND + "/file/" + rowData.PhotoURL}
-                      style={{ width: "auto", maxWidth: "400px" }}
-                    />
-                  )}
+                  {rowData.PhotoURL &&
+                    rowData.PhotoURL != "null" &&
+                    rowData.PhotoURL != "undefined" && (
+                      <img
+                        src={process.env.BACKEND + "/file/" + rowData.PhotoURL}
+                        style={{ width: "auto", maxWidth: "400px" }}
+                      />
+                    )}
                 </>
               ),
               editComponent: (el) => (
@@ -151,6 +161,7 @@ export class Plants extends Component {
               field: "IDCategory",
               lookup: { ...categoriesLookup, null: translate("nullCategory") },
             },
+            { title: translate("description"), field: "Description" },
           ]}
           editable={{
             onRowDelete: (dat) =>

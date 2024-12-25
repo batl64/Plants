@@ -13,7 +13,7 @@ class Plants {
       searchFields,
     } = req.query;
 
-    let url = `SELECT PhotoURL, plants.ID_Category as IDCategory, plants.ID_Plant as id, Name, Area, PhotoURL,NameCategory FROM plants 
+    let url = `SELECT PhotoURL, plants.ID_Category as IDCategory, plants.ID_Plant as id, Name, Area, PhotoURL,NameCategory, Description FROM plants 
     LEFT JOIN categories on plants.ID_Category = categories.ID_Category  
     WHERE 1 AND (`;
     const ser = searchFields.split(",");
@@ -54,7 +54,12 @@ class Plants {
   }
   async deletePlants(req, res) {
     let { id, PhotoURL } = req.body;
-    PhotoURL = PhotoURL == "null" ? undefined : PhotoURL;
+    PhotoURL =
+      PhotoURL == "null"
+        ? undefined
+        : PhotoURL == "undefined"
+        ? undefined
+        : PhotoURL;
 
     if (PhotoURL) {
       const filePath = path.join(
@@ -82,16 +87,16 @@ class Plants {
   }
 
   async createPlants(req, res) {
-    const { Name, PhotoURL, Area, IDCategory } = req.query;
+    const { Name, PhotoURL, Area, IDCategory, Description } = req.query;
     let photo = undefined;
     if (req?.file) {
       photo = req?.file?.filename;
     }
 
     db.query(
-      `INSERT INTO plants( Name, PhotoURL, Area, ID_Category ) VALUES ('${Name}','${
+      `INSERT INTO plants( Name, PhotoURL, Area, ID_Category,Description ) VALUES ('${Name}','${
         photo || PhotoURL || null
-      }',${Area},${IDCategory})`,
+      }',${Area},${IDCategory},'${Description}')`,
       (err, result) => {
         res.status(200).json({ message: "List creacte" });
       }
@@ -99,9 +104,14 @@ class Plants {
   }
 
   async updatePlants(req, res) {
-    let { id, Name, PhotoURL, Area, IDCategory } = req.query;
+    let { id, Name, PhotoURL, Area, IDCategory, Description } = req.query;
     let photo = undefined;
-    PhotoURL = PhotoURL == "null" ? undefined : PhotoURL;
+    PhotoURL =
+      PhotoURL == "null"
+        ? undefined
+        : PhotoURL == "undefined"
+        ? undefined
+        : PhotoURL;
     if (req?.file) {
       photo = req?.file?.filename;
     }
@@ -109,7 +119,7 @@ class Plants {
     db.query(
       `UPDATE plants SET Name='${Name}',PhotoURL='${
         photo || PhotoURL || null
-      }', Area =${Area}, ID_Category=${IDCategory} WHERE ID_Plant = ${id}`,
+      }', Area =${Area}, ID_Category=${IDCategory},Description='${Description}' WHERE ID_Plant = ${id}`,
       (err, result) => {
         res.json(result);
       }

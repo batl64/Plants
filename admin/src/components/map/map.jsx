@@ -6,20 +6,22 @@ import L from "leaflet";
 import { fetchKyivRegion, respons } from "../../servises";
 import osmtogeojson from "osmtogeojson";
 import "leaflet/dist/leaflet.css";
-import "./map.css";
 
 const Mapp = (props) => {
   const { translate } = props;
   const mapRef = useRef(null);
   const [kyivRegion, setKyivRegion] = useState(null);
   const [plants, setPlants] = useState([]);
+  const [changeLogs, setChangeLogs] = useState([]);
+  const [select, setSelect] = useState(null);
+  const [date, setDate] = useState(null);
 
-  const ChangeSelect = async (dat) => {
+  const handleSubmit = async () => {
     const reg = await respons(
       "get",
-      "/changeLogsList?" + new URLSearchParams({ id: dat.target.value })
+      "/changeLogsList?" + new URLSearchParams({ id: select || 1, date: date })
     ).then((data) => data);
-    console.log(reg);
+
     let query = ``;
     for (const element of reg) {
       if (element.regType === "Область") {
@@ -28,7 +30,12 @@ const Mapp = (props) => {
         query += `relation["admin_level"="6"]["name"="${element.RegionName}"];`;
       }
     }
+    setChangeLogs(reg);
     setKyivRegion(await fetchKyivRegion(query));
+  };
+
+  const ChangeSelect = (dat) => {
+    setSelect(dat.target.value);
   };
 
   useEffect(async () => {
@@ -53,18 +60,41 @@ const Mapp = (props) => {
       });
 
       const geoJsonData = osmtogeojson(kyivRegion);
+      const featuresData = geoJsonData.features.filter(
+        (feature) => feature.geometry.type !== "Point"
+      );
+
+      const featuresWithIndex = featuresData.map((feature, index) => ({
+        ...feature,
+        properties: {
+          ...feature.properties,
+          AreaSize: changeLogs[index]?.AreaSize,
+        },
+      }));
 
       L.geoJSON(
         {
           type: "FeatureCollection",
-          features: geoJsonData.features.filter(
-            (feature) => feature.geometry.type !== "Point"
-          ),
+          features: featuresWithIndex,
         },
         {
           style: {
             color: "blue",
             fillOpacity: 0.2,
+          },
+          onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+              layer.bindTooltip(
+                feature.properties.name +
+                  " (" +
+                  feature.properties.AreaSize +
+                  ") ",
+                {
+                  permanent: false,
+                  direction: "top",
+                }
+              );
+            }
           },
         }
       ).addTo(map);
@@ -82,23 +112,47 @@ const Mapp = (props) => {
   return (
     <>
       <div className="main-page">
-        <select
-          name="name_of_select"
-          id="id_of_select"
-          style={{}}
-          onChange={ChangeSelect}
-        >
-          <option value="" disabled selected>
-            {translate("selectPlants")}
-          </option>
-          {plants.map((e) => (
-            <option key={e.ID_Plant} value={e.ID_Plant}>
-              {e.Name}
-              {e.ID_Category}
+        <div>
+          <select
+            name="name_of_select"
+            id="id_of_select"
+            style={{ marginLeft: "20px" }}
+            onChange={ChangeSelect}
+          >
+            <option value="" disabled selected>
+              {translate("selectPlants")}
             </option>
-          ))}
-        </select>
-        <div style={{ display: "flex", justifyContent: "center" }}>
+            {plants.map((e) => (
+              <option key={e.ID_Plant} value={e.ID_Plant}>
+                {e.Name}
+                {e.ID_Category}
+              </option>
+            ))}
+          </select>
+          <input
+            style={{ marginLeft: "20px" }}
+            type="date"
+            id="dateInput"
+            name="date"
+            onChange={(dat) => {
+              setDate(dat.target.value);
+            }}
+          />
+          <input
+            type="submit"
+            style={{ marginLeft: "20px" }}
+            className="btn btn-success my-3 "
+            value={translate("search")}
+            onClick={handleSubmit}
+          />
+        </div>
+        <div
+          style={{
+            marginTop: "20px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <div style={{ width: "100%", height: "500px" }} ref={mapRef}></div>
         </div>
       </div>

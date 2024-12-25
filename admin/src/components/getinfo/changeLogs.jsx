@@ -20,7 +20,13 @@ export class ChangeLogs extends Component {
         pageSize: query.pageSize ? query.pageSize : 5,
         pageNumber: query.page ? query.page : 0,
         search: query.search ? query.search : "",
-        searchFields: ["ChangeDate", "AreaSize", "Description"],
+        searchFields: [
+          "ChangeDate",
+          "AreaSize",
+          "description",
+          "NameRegion",
+          "NamePlant",
+        ],
       };
 
       return new Promise((res, rej) => {
@@ -56,13 +62,15 @@ export class ChangeLogs extends Component {
           tableRef={tableRef}
           title={translate("changeLogs")}
           columns={[
+            { title: translate("nameRegion"), field: "NameRegion" },
+            { title: translate("namePlant"), field: "NamePlant" },
             {
               title: translate("changeDate"),
               field: "ChangeDate",
               type: "datetime",
             },
             { title: translate("areaSize"), field: "AreaSize" },
-            { title: translate("description"), field: "Description" },
+            { title: translate("description"), field: "description" },
           ]}
           data={response}
           localization={{
